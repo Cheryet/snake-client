@@ -1,3 +1,4 @@
+const { copyFileSync } = require("fs");
 const net = require("net");
 
 // establishes a connection with the game server
@@ -9,6 +10,12 @@ const connect = function () {
 
   // interpret incoming data as text
   conn.setEncoding("utf8");
+
+  conn.on('connect', () => {
+    console.log('~~ Successfully made connection to the game server ~~')
+    conn.write('Name: CFH')
+  })
+
   conn.on("data", (data) => {
     // code that does something when the connection is first established
     console.log('Message from server:', data)
@@ -18,4 +25,6 @@ const connect = function () {
 };
 
 console.log("Connecting ...");
-connect();
+
+
+module.exports = connect

@@ -1,6 +1,6 @@
 const { copyFileSync } = require("fs");
 const setupInput = require("./input");
-const connect = require('./client')
+const connect = require('./client');
 
 
 
@@ -11,7 +11,7 @@ console.log("Connecting ...");
 setupInput(connect());
 
 
-module.exports = connect
+module.exports = connect;
 
 
 // "Move: up" - move up one square (unless facing down)

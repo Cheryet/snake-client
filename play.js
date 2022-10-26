@@ -1,6 +1,21 @@
 const { copyFileSync } = require("fs");
 const net = require("net");
 
+const setupInput = function () {
+  const stdin = process.stdin;
+  stdin.setRawMode(true);
+  stdin.setEncoding("utf8");
+  stdin.resume();
+  stdin.on('data', handleUserInput);
+  return stdin;
+};
+
+const handleUserInput = (key) => {
+  if (key === '\u0003') {
+    process.exit();
+  };
+};
+
 // establishes a connection with the game server
 const connect = function () {
   const conn = net.createConnection({
@@ -19,7 +34,6 @@ const connect = function () {
   })
 
   conn.on("data", (data) => {
-    // code that does something when the connection is first established
     console.log('Message from server:', data)
   });
 
@@ -27,6 +41,7 @@ const connect = function () {
 };
 
 console.log("Connecting ...");
+setupInput();
 
 
 module.exports = connect

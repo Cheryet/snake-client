@@ -1,46 +1,13 @@
 const { copyFileSync } = require("fs");
-const net = require("net");
+const setupInput = require("./input");
+const connect = require('./client')
 
-const setupInput = function () {
-  const stdin = process.stdin;
-  stdin.setRawMode(true);
-  stdin.setEncoding("utf8");
-  stdin.resume();
-  stdin.on('data', handleUserInput);
-  return stdin;
-};
 
-const handleUserInput = (key) => {
-  if (key === '\u0003') {
-    process.exit();
-  };
-};
 
-// establishes a connection with the game server
-const connect = function () {
-  const conn = net.createConnection({
-    host: '165.227.47.243', // IP address here,
-    port: '50541' // PORT number here,
-  });
 
-  // interpret incoming data as text
-  conn.setEncoding("utf8");
-
-  conn.on('connect', () => {
-    console.log('~~ Successfully made connection to the game server ~~')
-    conn.write('Name: CFH')
-    setInterval(() => {
-      conn.write('Move: up') }, 50);
-  })
-
-  conn.on("data", (data) => {
-    console.log('Message from server:', data)
-  });
-
-  return conn;
-};
 
 console.log("Connecting ...");
+connect()
 setupInput();
 
 
